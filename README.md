@@ -98,6 +98,7 @@ Do not upload `.env` to GitHub.
 
 The system is designed to reduce waiting time and provide a simple digital queue management experience for users and administrators.
 
+live Demo: http://10.125.29.75:5500/
 ## 👩‍💻 Author
 
 **Mahalakshmi S**
