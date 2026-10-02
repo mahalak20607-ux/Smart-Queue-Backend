@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>User Dashboard | Smart Queue</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f6f7ff;
+
+            color: #20243a;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+
+            height: 75px;
+
+            background: white;
+
+            border-bottom:
+                1px solid #e6e7f0;
+
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        .nav-container {
+
+            width: 90%;
+
+            max-width: 1180px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+
+        .logo-box {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #615dea,
+                    #8068e9
+                );
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 13px;
+        }
+
+
+        .user-area {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .user-name {
+
+            color: #555b70;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .logout {
+
+            border: none;
+
+            background: #f0f0ff;
+
+            color: #615dea;
+
+            padding: 9px 15px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        /* MAIN */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1180px;
+
+            margin: auto;
+        }
+
+
+        main {
+
+            padding: 50px 0;
+        }
+
+
+        .welcome {
+
+            margin-bottom: 30px;
+        }
+
+
+        .welcome small {
+
+            color: #615dea;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+        }
+
+
+        .welcome h1 {
+
+            font-size: 36px;
+
+            margin-top: 7px;
+        }
+
+
+        .welcome p {
+
+            color: #777c90;
+
+            margin-top: 8px;
+        }
+
+
+        /* GRID */
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.35fr 1fr;
+
+            gap: 25px;
+        }
+
+
+        .card {
+
+            background: white;
+
+            border:
+                1px solid #e7e8f1;
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(60, 58, 120, 0.05);
+        }
+
+
+        .card-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .card-header h2 {
+
+            font-size: 21px;
+        }
+
+
+        .active {
+
+            color: #15966a;
+
+            background: #e9f9f2;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+
+        /* QUEUES */
+
+        .queue-box {
+
+            border:
+                1px solid #e4e5ef;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .queue-box.selected {
+
+            border:
+                2px solid #615dea;
+
+            background: #fafaff;
+        }
+
+
+        .queue-info {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .queue-info h3 {
+
+            font-size: 18px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .queue-info p {
+
+            color: #858a9d;
+
+            font-size: 13px;
+        }
+
+
+        .prefix {
+
+            background: #eeeeff;
+
+            color: #615dea;
+
+            padding: 9px 12px;
+
+            border-radius: 9px;
+
+            font-weight: bold;
+
+            font-size: 13px;
+        }
+
+
+        .select-button {
+
+            width: 100%;
+
+            margin-top: 18px;
+
+            height: 45px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #615dea;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .select-button:hover {
+
+            background: #4e4bd0;
+        }
+
+
+        /* TOKEN */
+
+        .token-card {
+
+            text-align: center;
+        }
+
+
+        .token-label {
+
+            color: #8a8fa1;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+        }
+
+
+        .token-number {
+
+            font-size: 58px;
+
+            color: #615dea;
+
+            font-weight: bold;
+
+            margin: 15px 0 5px;
+
+            letter-spacing: 2px;
+        }
+
+
+        .token-status {
+
+            color: #15966a;
+
+            background: #e9f9f2;
+
+            display: inline-block;
+
+            padding: 7px 14px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        /* LIVE QUEUE */
+
+        .live-status {
+
+            margin-top: 25px;
+
+            border-top:
+                1px solid #ececf4;
+
+            padding-top: 25px;
+
+            text-align: left;
+        }
+
+
+        .live-title {
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            color: #8a8fa1;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .live-row {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            padding: 12px 0;
+
+            border-bottom:
+                1px solid #f0f0f5;
+        }
+
+
+        .live-row:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .live-row span {
+
+            color: #777c90;
+
+            font-size: 13px;
+        }
+
+
+        .live-row strong {
+
+            color: #20243a;
+
+            font-size: 16px;
+        }
+
+
+        .serving {
+
+            color: #15966a !important;
+        }
+
+
+        .next {
+
+            color: #615dea !important;
+        }
+
+
+        .people {
+
+            color: #d97706 !important;
+        }
+
+
+        .token-message {
+
+            margin-top: 18px;
+
+            color: #777c90;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        .empty-token {
+
+            padding: 45px 10px;
+
+            color: #8b90a1;
+        }
+
+
+        .empty-token .icon {
+
+            width: 55px;
+
+            height: 55px;
+
+            margin: auto;
+
+            margin-bottom: 15px;
+
+            border-radius: 15px;
+
+            background: #eeeeff;
+
+            color: #615dea;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 24px;
+        }
+
+
+        /* MESSAGE */
+
+        #message {
+
+            margin-top: 20px;
+
+            text-align: center;
+
+            min-height: 20px;
+
+            font-size: 13px;
+        }
+
+
+        .success {
+
+            color: #15966a;
+        }
+
+
+        .error {
+
+            color: #dc4b5b;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+
+            margin-top: 50px;
+
+            padding: 25px 0;
+
+            border-top:
+                1px solid #e5e6ef;
+
+            text-align: center;
+
+            color: #858a9b;
+
+            font-size: 12px;
+        }
+
+
+        @media (max-width: 800px) {
+
+            .dashboard-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 30px;
+            }
+        }
+
+
+        @media (max-width: 550px) {
+
+            .user-name {
+
+                display: none;
+            }
+
+
+            .queue-info {
+
+                gap: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <div class="logo">
+
+            <div class="logo-box">
+                SQ
+            </div>
+
+            <span>
+                Smart Queue
+            </span>
+
+        </div>
+
+
+        <div class="user-area">
+
+            <span
+                class="user-name"
+                id="userName">
+                User
+            </span>
+
+
+            <button
+                class="logout"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main>
+
+    <div class="container">
+
+
+        <div class="welcome">
+
+            <small>
+                USER DASHBOARD
+            </small>
+
+
+            <h1
+                id="welcomeText">
+                Welcome back!
+            </h1>
+
+
+            <p>
+                Select a queue and generate your digital token.
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+            <!-- AVAILABLE QUEUES -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Available Queues
+                    </h2>
+
+                    <span class="active">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <div id="queueList">
+
+                    <p>
+                        Loading queues...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOKEN -->
+
+            <div class="card token-card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Your Token
+                    </h2>
+
+                </div>
+
+
+                <div id="tokenArea">
+
+                    <div class="empty-token">
+
+                        <div class="icon">
+                            #
+                        </div>
+
+                        <p>
+                            You haven't generated a token yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LIVE STATUS -->
+
+                <div
+                    id="liveStatus"
+                    class="live-status"
+                    style="display:none;">
+
+                    <div class="live-title">
+                        LIVE QUEUE STATUS
+                    </div>
+
+
+                    <div class="live-row">
+
+                        <span>
+                            🟢 Now Serving
+                        </span>
+
+                        <strong
+                            id="nowServing"
+                            class="serving">
+                            ---
+                        </strong>
+
+                    </div>
+
+
+                    <div class="live-row">
+
+                        <span>
+                            🟡 Next Token
+                        </span>
+
+                        <strong
+                            id="nextToken"
+                            class="next">
+                            ---
+                        </strong>
+
+                    </div>
+
+
+                    <div class="live-row">
+
+                        <span>
+                            👥 People Before You
+                        </span>
+
+                        <strong
+                            id="peopleBeforeYou"
+                            class="people">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="live-row">
+
+                        <span>
+                            ⏳ Your Status
+                        </span>
+
+                        <strong
+                            id="myStatus">
+                            Waiting
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="message"></div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    Smart Queue Management System © 2026
+
+</footer>
+
+
+<script>
+
+const API_URL =
+    "http://localhost:5000";
+
+
+const authToken =
+    localStorage.getItem("token");
+
+
+const storedUser =
+    localStorage.getItem("user");
+
+
+// ======================================
+// AUTH CHECK
+// ======================================
+
+if (!authToken || !storedUser) {
+
+    window.location.href =
+        "login.html";
+}
+
+
+let user;
+
+try {
+
+    user =
+        JSON.parse(storedUser);
+
+} catch (error) {
+
+    localStorage.clear();
+
+    window.location.href =
+        "login.html";
+}
+
+
+if (user && user.role === "admin") {
+
+    window.location.href =
+        "admin-dashboard.html";
+}
+
+
+document.getElementById(
+    "userName"
+).textContent =
+    user.name ||
+    user.email ||
+    "User";
+
+
+document.getElementById(
+    "welcomeText"
+).textContent =
+    "Welcome back, " +
+    (user.name || "User") +
+    "!";
+
+
+// ======================================
+// CURRENT TOKEN
+// ======================================
+
+let myToken = null;
+
+let selectedQueueId = null;
+
+
+// ======================================
+// LOAD ACTIVE QUEUES
+// ======================================
+
+async function loadQueues() {
+
+    const queueList =
+        document.getElementById(
+            "queueList"
+        );
+
+
+    try {
+
+        /*
+         * IMPORTANT:
+         * User uses /active,
+         * not /api/queues.
+         */
+
+        const response =
+            await fetch(
+                `${API_URL}/api/queues/active`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${authToken}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load queues"
+            );
+        }
+
+
+        const queues =
+            data.queues || [];
+
+
+        if (!queues.length) {
+
+            queueList.innerHTML = `
+                <p>
+                    No active queues available.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        queueList.innerHTML = "";
+
+
+        queues.forEach(queue => {
+
+            const box =
+                document.createElement(
+                    "div"
+                );
+
+
+            box.className =
+                "queue-box";
+
+
+            box.innerHTML = `
+
+                <div class="queue-info">
+
+                    <div>
+
+                        <h3>
+                            ${escapeHTML(
+                                queue.name
+                            )}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(
+                                queue.description ||
+                                "Queue service"
+                            )}
+                        </p>
+
+                    </div>
+
+
+                    <div class="prefix">
+                        ${escapeHTML(
+                            queue.prefix
+                        )}
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="select-button"
+                    onclick="generateToken(
+                        '${queue._id}'
+                    )">
+
+                    Generate Token
+
+                </button>
+
+            `;
+
+
+            queueList.appendChild(box);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        queueList.innerHTML = `
+
+            <p class="error">
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </p>
+
+        `;
+    }
+}
+
+
+// ======================================
+// GENERATE TOKEN
+// ======================================
+
+async function generateToken(queueId) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        "Generating your token...";
+
+
+    message.className = "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/tokens`,
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${authToken}`
+
+                    },
+
+                    body: JSON.stringify({
+
+                        queueId:
+                            queueId
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to generate token"
+            );
+        }
+
+
+        myToken =
+            data.token;
+
+
+        selectedQueueId =
+            queueId;
+
+
+        displayMyToken();
+
+
+        message.textContent =
+            "Token generated successfully!";
+
+
+        message.className =
+            "success";
+
+
+        loadQueueStatus();
+
+
+    } catch (error) {
+
+        message.textContent =
+            error.message;
+
+        message.className =
+            "error";
+    }
+}
+
+
+// ======================================
+// DISPLAY MY TOKEN
+// ======================================
+
+function displayMyToken() {
+
+    if (!myToken) {
+
+        return;
+    }
+
+
+    document.getElementById(
+        "tokenArea"
+    ).innerHTML = `
+
+        <div>
+
+            <div class="token-label">
+                YOUR TOKEN
+            </div>
+
+
+            <div class="token-number">
+
+                ${escapeHTML(
+                    myToken.tokenCode
+                )}
+
+            </div>
+
+
+            <div
+                class="token-status"
+                id="tokenStatus">
+
+                ${escapeHTML(
+                    myToken.status
+                )}
+
+            </div>
+
+
+            <p class="token-message">
+
+                Your token has been generated successfully.
+                Please wait for your turn.
+
+            </p>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "liveStatus"
+    ).style.display = "block";
+}
+
+
+// ======================================
+// LOAD LIVE QUEUE STATUS
+// ======================================
+
+async function loadQueueStatus() {
+
+    if (!selectedQueueId) {
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/tokens/queue/${selectedQueueId}/status`,
+                {
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${authToken}`
+
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load queue status"
+            );
+        }
+
+
+        // Now serving
+
+        document.getElementById(
+            "nowServing"
+        ).textContent =
+
+            data.nowServing
+                ? data.nowServing.tokenCode
+                : "No token";
+
+
+        // Next token
+
+        document.getElementById(
+            "nextToken"
+        ).textContent =
+
+            data.nextToken
+                ? data.nextToken.tokenCode
+                : "No waiting token";
+
+
+        // People before me
+
+        document.getElementById(
+            "peopleBeforeYou"
+        ).textContent =
+
+            data.peopleBeforeYou || 0;
+
+
+        // My token
+
+        if (data.myToken) {
+
+            myToken = {
+
+                ...myToken,
+
+                ...data.myToken
+
+            };
+
+
+            document.getElementById(
+                "myStatus"
+            ).textContent =
+
+                data.myToken.status
+                    .toUpperCase();
+
+
+            const statusElement =
+                document.getElementById(
+                    "tokenStatus"
+                );
+
+
+            if (statusElement) {
+
+                statusElement.textContent =
+                    data.myToken.status;
+            }
+
+        } else {
+
+            /*
+             * If my token is no longer waiting,
+             * check whether it is being served.
+             */
+
+            const myTokensResponse =
+                await fetch(
+                    `${API_URL}/api/tokens/my`,
+                    {
+                        headers: {
+                            "Authorization":
+                                `Bearer ${authToken}`
+                        }
+                    }
+                );
+
+
+            const myTokensData =
+                await myTokensResponse.json();
+
+
+            if (
+                myTokensResponse.ok &&
+                myTokensData.tokens
+            ) {
+
+                const current =
+                    myTokensData.tokens.find(
+                        item =>
+                            item._id ===
+                            myToken?.id ||
+                            item._id ===
+                            myToken?._id
+                    );
+
+
+                if (current) {
+
+                    myToken = current;
+
+
+                    document.getElementById(
+                        "myStatus"
+                    ).textContent =
+                        current.status
+                            .toUpperCase();
+
+
+                    const statusElement =
+                        document.getElementById(
+                            "tokenStatus"
+                        );
+
+
+                    if (statusElement) {
+
+                        statusElement.textContent =
+                            current.status;
+                    }
+                }
+            }
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Queue Status Error:",
+            error
+        );
+    }
+}
+
+
+// ======================================
+// ESCAPE HTML
+// ======================================
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+// ======================================
+// LOGOUT
+// ======================================
+
+function logout() {
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+    window.location.href =
+        "login.html";
+}
+
+
+// ======================================
+// START
+// ======================================
+
+loadQueues();
+
+
+// ======================================
+// AUTO REFRESH
+// Every 5 seconds
+// ======================================
+
+setInterval(() => {
+
+    if (selectedQueueId) {
+
+        loadQueueStatus();
+
+    }
+
+}, 5000);
+
+</script>
+
+
+</body>
+
+</html>

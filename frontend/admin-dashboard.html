@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Smart Queue</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 700;
+            color: #615dea;
+        }
+
+        .logo span {
+            color: #0f172a;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .admin-name {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #ef4444;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: 35px auto;
+        }
+
+        .welcome {
+            margin-bottom: 28px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 700;
+            color: #615dea;
+        }
+
+        /* SECTION */
+
+        .section {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .section-header h2 {
+            font-size: 21px;
+        }
+
+        .add-btn {
+            border: none;
+            background: #615dea;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* FORM */
+
+        .create-form {
+            display: none;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        .create-form.show {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 12px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-btn {
+            border: none;
+            background: #16a34a;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .cancel-btn {
+            border: none;
+            background: #e2e8f0;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* QUEUE GRID */
+
+        .queue-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .queue-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 20px;
+            background: white;
+        }
+
+        .queue-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .queue-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .prefix {
+            color: #615dea;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            height: fit-content;
+        }
+
+        .status.active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status.inactive {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .description {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        /* LIVE QUEUE */
+
+        .live-box {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 18px;
+        }
+
+        .live-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .serving-token {
+            font-size: 28px;
+            font-weight: 800;
+            color: #615dea;
+        }
+
+        .next-token {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* BUTTONS */
+
+        .queue-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .queue-actions button {
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .call-btn {
+            background: #615dea;
+            color: white;
+        }
+
+        .complete-btn {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .toggle-btn {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .delete-btn {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .queue-actions .full-btn {
+            grid-column: 1 / -1;
+        }
+
+        /* MESSAGE */
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            grid-column: 1 / -1;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
+            grid-column: 1 / -1;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .queue-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 92%;
+            }
+
+            .admin-name {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Smart<span>Queue</span>
+        </div>
+
+        <div class="admin-info">
+
+            <span
+                class="admin-name"
+                id="adminName">
+                Admin
+            </span>
+
+            <button
+                class="logout-btn"
+                onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <div class="welcome">
+
+            <h1>Admin Dashboard</h1>
+
+            <p>
+                Manage queues and control token serving.
+            </p>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h3>Total Queues</h3>
+
+                <div
+                    class="stat-number"
+                    id="totalQueues">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Active Queues</h3>
+
+                <div
+                    class="stat-number"
+                    id="activeQueues">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>System Status</h3>
+
+                <div
+                    class="stat-number"
+                    style="font-size:20px;">
+                    ● Online
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUEUE MANAGEMENT -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <h2>Queue Management</h2>
+
+                <button
+                    class="add-btn"
+                    onclick="toggleCreateForm()">
+                    + Create Queue
+                </button>
+
+            </div>
+
+
+            <div
+                id="message"
+                class="message">
+            </div>
+
+
+            <!-- CREATE FORM -->
+
+            <div
+                id="createForm"
+                class="create-form">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Queue Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="queueName"
+                            placeholder="Example: General Service">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Queue Prefix
+                        </label>
+
+                        <input
+                            type="text"
+                            id="queuePrefix"
+                            placeholder="Example: GEN"
+                            maxlength="5">
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            id="queueDescription"
+                            placeholder="Enter queue description">
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        class="save-btn"
+                        onclick="createQueue()">
+                        Create Queue
+                    </button>
+
+                    <button
+                        class="cancel-btn"
+                        onclick="toggleCreateForm()">
+                        Cancel
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUEUES -->
+
+            <div
+                id="queueGrid"
+                class="queue-grid">
+
+                <div class="loading">
+                    Loading queues...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+<script>
+
+const API_URL = "http://localhost:5000";
+
+const token =
+    localStorage.getItem("token");
+
+const storedUser =
+    localStorage.getItem("user");
+
+
+// ======================================
+// AUTH
+// ======================================
+
+if (!token || !storedUser) {
+
+    window.location.href =
+        "login.html";
+}
+
+
+let user;
+
+try {
+
+    user =
+        JSON.parse(storedUser);
+
+} catch (error) {
+
+    localStorage.clear();
+
+    window.location.href =
+        "login.html";
+}
+
+
+if (user && user.role !== "admin") {
+
+    window.location.href =
+        "user-dashboard.html";
+}
+
+
+if (user) {
+
+    document.getElementById(
+        "adminName"
+    ).textContent =
+        user.name ||
+        user.email ||
+        "Admin";
+}
+
+
+// ======================================
+// MESSAGE
+// ======================================
+
+function showMessage(message, type) {
+
+    const box =
+        document.getElementById("message");
+
+    box.textContent = message;
+
+    box.className =
+        "message " + type;
+
+    setTimeout(() => {
+
+        box.className =
+            "message";
+
+    }, 3500);
+}
+
+
+// ======================================
+// LOAD QUEUES
+// ======================================
+
+async function loadQueues() {
+
+    const queueGrid =
+        document.getElementById(
+            "queueGrid"
+        );
+
+    queueGrid.innerHTML = `
+        <div class="loading">
+            Loading queues...
+        </div>
+    `;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/queues`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to load queues"
+            );
+        }
+
+        const queues =
+            data.queues || [];
+
+        displayQueues(queues);
+
+    } catch (error) {
+
+        console.error(error);
+
+        queueGrid.innerHTML = `
+            <div class="empty">
+                Unable to load queues.
+                <br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+    }
+}
+
+
+// ======================================
+// DISPLAY QUEUES
+// ======================================
+
+async function displayQueues(queues) {
+
+    const queueGrid =
+        document.getElementById(
+            "queueGrid"
+        );
+
+    document.getElementById(
+        "totalQueues"
+    ).textContent =
+        queues.length;
+
+
+    // IMPORTANT:
+    // Your backend uses status = "active"
+
+    const activeCount =
+        queues.filter(
+            queue =>
+                queue.status === "active"
+        ).length;
+
+
+    document.getElementById(
+        "activeQueues"
+    ).textContent =
+        activeCount;
+
+
+    if (!queues.length) {
+
+        queueGrid.innerHTML = `
+            <div class="empty">
+                No queues available.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const cards =
+        await Promise.all(
+            queues.map(
+                queue =>
+                    createQueueCard(queue)
+            )
+        );
+
+
+    queueGrid.innerHTML =
+        cards.join("");
+}
+
+
+// ======================================
+// CREATE QUEUE CARD
+// ======================================
+
+async function createQueueCard(queue) {
+
+    const isActive =
+        queue.status === "active";
+
+
+    let nowServing = null;
+    let nextToken = null;
+
+
+    // Get live queue status
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/tokens/queue/${queue._id}/status`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (response.ok) {
+
+            const data =
+                await response.json();
+
+            nowServing =
+                data.nowServing;
+
+            nextToken =
+                data.nextToken;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Queue status error:",
+            error
+        );
+    }
+
+
+    return `
+
+        <div class="queue-card">
+
+            <div class="queue-top">
+
+                <div>
+
+                    <div class="queue-name">
+                        ${escapeHTML(
+                            queue.name
+                        )}
+                    </div>
+
+                    <div class="prefix">
+                        ${escapeHTML(
+                            queue.prefix || ""
+                        )}
+                    </div>
+
+                </div>
+
+
+                <span
+                    class="status ${
+                        isActive
+                            ? "active"
+                            : "inactive"
+                    }">
+
+                    ${
+                        isActive
+                            ? "Active"
+                            : "Inactive"
+                    }
+
+                </span>
+
+            </div>
+
+
+            <div class="description">
+
+                ${escapeHTML(
+                    queue.description ||
+                    "No description available."
+                )}
+
+            </div>
+
+
+            <!-- LIVE TOKEN -->
+
+            <div class="live-box">
+
+                <div class="live-title">
+                    NOW SERVING
+                </div>
+
+                <div class="serving-token">
+
+                    ${
+                        nowServing
+                            ? nowServing.tokenCode
+                            : "No token"
+                    }
+
+                </div>
+
+
+                <div class="next-token">
+
+                    Next:
+
+                    ${
+                        nextToken
+                            ? nextToken.tokenCode
+                            : "No waiting token"
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="queue-actions">
+
+                ${
+                    isActive
+                        ? `
+                            <button
+                                class="call-btn"
+                                onclick="callNextToken(
+                                    '${queue._id}'
+                                )">
+                                ▶ Call Next Token
+                            </button>
+                          `
+                        : `
+                            <button
+                                class="call-btn"
+                                disabled>
+                                Queue Inactive
+                            </button>
+                          `
+                }
+
+
+                ${
+                    nowServing
+                        ? `
+                            <button
+                                class="complete-btn"
+                                onclick="completeToken(
+                                    '${nowServing._id}'
+                                )">
+                                ✓ Complete
+                            </button>
+                          `
+                        : `
+                            <button
+                                class="complete-btn"
+                                disabled>
+                                No Current Token
+                            </button>
+                          `
+                }
+
+
+                <button
+                    class="toggle-btn"
+                    onclick="toggleQueue(
+                        '${queue._id}',
+                        ${isActive}
+                    )">
+
+                    ${
+                        isActive
+                            ? "Deactivate"
+                            : "Activate"
+                    }
+
+                </button>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteQueue(
+                        '${queue._id}'
+                    )">
+
+                    Delete
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+// ======================================
+// CALL NEXT TOKEN
+// ======================================
+
+async function callNextToken(queueId) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/tokens/queue/${queueId}/next`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to call next token"
+            );
+        }
+
+
+        showMessage(
+            `${data.token.tokenCode} is now being served.`,
+            "success"
+        );
+
+
+        loadQueues();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+// ======================================
+// COMPLETE TOKEN
+// ======================================
+
+async function completeToken(tokenId) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/tokens/${tokenId}/status`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        status: "completed"
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to complete token"
+            );
+        }
+
+
+        showMessage(
+            "Token completed successfully.",
+            "success"
+        );
+
+
+        loadQueues();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+// ======================================
+// CREATE FORM
+// ======================================
+
+function toggleCreateForm() {
+
+    document
+        .getElementById("createForm")
+        .classList.toggle("show");
+}
+
+
+// ======================================
+// CREATE QUEUE
+// ======================================
+
+async function createQueue() {
+
+    const name =
+        document
+            .getElementById("queueName")
+            .value
+            .trim();
+
+
+    const prefix =
+        document
+            .getElementById("queuePrefix")
+            .value
+            .trim()
+            .toUpperCase();
+
+
+    const description =
+        document
+            .getElementById("queueDescription")
+            .value
+            .trim();
+
+
+    if (!name) {
+
+        showMessage(
+            "Please enter a queue name.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!prefix) {
+
+        showMessage(
+            "Please enter a queue prefix.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/queues`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        name,
+                        prefix,
+                        description
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to create queue"
+            );
+        }
+
+
+        showMessage(
+            "Queue created successfully!",
+            "success"
+        );
+
+
+        document.getElementById(
+            "queueName"
+        ).value = "";
+
+
+        document.getElementById(
+            "queuePrefix"
+        ).value = "";
+
+
+        document.getElementById(
+            "queueDescription"
+        ).value = "";
+
+
+        document
+            .getElementById("createForm")
+            .classList.remove("show");
+
+
+        loadQueues();
+
+    } catch (error) {
+
+        showMessage(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+// ======================================
+// TOGGLE QUEUE
+// ======================================
+
+async function toggleQueue(
+    queueId,
+    currentStatus
+) {
+
+    const newStatus =
+        !currentStatus;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/queues/${queueId}/status`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        status:
+                            newStatus
+                                ? "active"
+                                : "closed"
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to update queue"
+            );
+        }
+
+
+        showMessage(
+            newStatus
+                ? "Queue activated successfully!"
+                : "Queue deactivated successfully!",
+            "success"
+        );
+
+
+        loadQueues();
+
+    } catch (error) {
+
+        showMessage(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+// ======================================
+// DELETE QUEUE
+// ======================================
+
+async function deleteQueue(queueId) {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete this queue?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/queues/${queueId}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to delete queue"
+            );
+        }
+
+
+        showMessage(
+            "Queue deleted successfully!",
+            "success"
+        );
+
+
+        loadQueues();
+
+    } catch (error) {
+
+        showMessage(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+// ======================================
+// ESCAPE HTML
+// ======================================
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+// ======================================
+// LOGOUT
+// ======================================
+
+function logout() {
+
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("user");
+
+    window.location.href =
+        "login.html";
+}
+
+
+// ======================================
+// START
+// ======================================
+
+loadQueues();
+
+</script>
+
+</body>
+</html>

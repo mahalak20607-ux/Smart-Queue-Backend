@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Smart Queue</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f6ff, #eef1ff);
+            color: #20243a;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            min-height: 600px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(55, 58, 130, 0.15);
+        }
+
+        /* LEFT */
+
+        .login-left {
+            background: linear-gradient(145deg, #615dea, #8068e9);
+            padding: 55px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 70px;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .logo-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: white;
+            color: #615dea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .login-left h1 {
+            font-size: 43px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .login-left p {
+            color: #e6e4ff;
+            line-height: 1.8;
+            font-size: 15px;
+            max-width: 390px;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-top: 35px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* RIGHT */
+
+        .login-right {
+            padding: 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-right h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #242940;
+        }
+
+        .subtitle {
+            color: #858a9d;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #3b4055;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #dfe1ed;
+            border-radius: 10px;
+            padding: 0 15px;
+            font-size: 14px;
+            outline: none;
+            color: #292d43;
+            background: #fafaff;
+        }
+
+        .form-group input:focus {
+            border-color: #615dea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(97, 93, 234, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 10px;
+            background: #615dea;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.3s;
+        }
+
+        .login-button:hover {
+            background: #4e4bd0;
+        }
+
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            min-height: 20px;
+        }
+
+        .success {
+            color: #15966a;
+        }
+
+        .error {
+            color: #dc4b5b;
+        }
+
+        .register-text {
+            text-align: center;
+            margin-top: 28px;
+            color: #858a9d;
+            font-size: 13px;
+        }
+
+        .register-text a {
+            color: #615dea;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 750px) {
+
+            .login-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .login-left {
+                padding: 40px;
+            }
+
+            .login-left .logo {
+                margin-bottom: 35px;
+            }
+
+            .login-left h1 {
+                font-size: 34px;
+            }
+
+            .login-right {
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="login-wrapper">
+
+        <!-- LEFT SIDE -->
+
+        <div class="login-left">
+
+            <div class="logo">
+                <div class="logo-box">SQ</div>
+                <span>Smart Queue</span>
+            </div>
+
+            <h1>
+                Welcome<br>
+                back.
+            </h1>
+
+            <p>
+                Sign in to your Smart Queue account to generate
+                tokens, track your queue and manage your services
+                easily.
+            </p>
+
+            <a href="index.html" class="back-home">
+                ← Back to Home
+            </a>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="login-right">
+
+            <h2>Sign In</h2>
+
+            <p class="subtitle">
+                Enter your account details to continue.
+            </p>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div id="loginMessage" class="message"></div>
+
+
+            <div class="register-text">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Create an account
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:5000";
+
+const loginForm = document.getElementById("loginForm");
+
+loginForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const button =
+        document.getElementById("loginButton");
+
+    const message =
+        document.getElementById("loginMessage");
+
+
+    button.disabled = true;
+    button.textContent = "Signing in...";
+
+    message.textContent = "";
+    message.className = "message";
+
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/auth/login`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.message || "Login failed"
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "token",
+            data.token
+        );
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(data.user)
+        );
+
+
+        message.textContent =
+            "Login successful!";
+
+        message.className =
+            "message success";
+
+
+        setTimeout(function() {
+
+            if (data.user.role === "admin") {
+
+                window.location.href =
+                    "admin-dashboard.html";
+
+            } else {
+
+                window.location.href =
+                    "user-dashboard.html";
+
+            }
+
+        }, 700);
+
+
+    } catch (error) {
+
+        message.textContent =
+            error.message;
+
+        message.className =
+            "message error";
+
+        button.disabled = false;
+
+        button.textContent =
+            "Sign In";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

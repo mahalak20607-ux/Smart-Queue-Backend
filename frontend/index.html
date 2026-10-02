@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Queue Management System</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f6f7ff;
+    color: #20243a;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    width: 90%;
+    max-width: 1180px;
+    margin: auto;
+}
+
+/* NAVBAR */
+
+.navbar {
+    height: 76px;
+    background: white;
+    border-bottom: 1px solid #e7e8f2;
+    display: flex;
+    align-items: center;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #20243a;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.logo-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #615dea, #866bea);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 8px 20px rgba(97,93,234,.25);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    color: #686d80;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #615dea;
+}
+
+.nav-button {
+    background: #615dea;
+    color: white !important;
+    padding: 12px 20px;
+    border-radius: 9px;
+}
+
+/* HERO */
+
+.hero {
+    padding: 90px 0;
+    background:
+        radial-gradient(circle at 85% 20%, #e7e5ff, transparent 32%),
+        linear-gradient(180deg, #ffffff, #f6f7ff);
+}
+
+.hero-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eeeeff;
+    color: #615dea;
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 22px;
+}
+
+.badge span {
+    width: 7px;
+    height: 7px;
+    background: #615dea;
+    border-radius: 50%;
+}
+
+.hero h1 {
+    font-size: 58px;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+}
+
+.hero h1 strong {
+    color: #615dea;
+}
+
+.hero-description {
+    color: #70768a;
+    font-size: 17px;
+    line-height: 1.8;
+    max-width: 570px;
+    margin-bottom: 32px;
+}
+
+.buttons {
+    display: flex;
+    gap: 14px;
+}
+
+.primary {
+    background: #615dea;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 12px 25px rgba(97,93,234,.25);
+}
+
+.secondary {
+    background: white;
+    color: #34394f;
+    border: 1px solid #dfe1ed;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.primary:hover {
+    background: #4d49d0;
+}
+
+.secondary:hover {
+    border-color: #615dea;
+    color: #615dea;
+}
+
+/* STATS */
+
+.stats {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-top: 42px;
+}
+
+.stat h3 {
+    font-size: 19px;
+}
+
+.stat p {
+    color: #858a9c;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.divider {
+    width: 1px;
+    height: 35px;
+    background: #dddfea;
+}
+
+/* QUEUE CARD */
+
+.queue-area {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.queue-card {
+    width: 430px;
+    background: white;
+    border-radius: 22px;
+    padding: 28px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 25px 60px rgba(50,48,110,.14);
+    border: 1px solid #ececf5;
+}
+
+.queue-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #eeeeF5;
+}
+
+.queue-header small,
+.token small {
+    color: #9499aa;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.queue-header h2 {
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.status {
+    height: fit-content;
+    background: #e9f9f2;
+    color: #15956a;
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.token {
+    text-align: center;
+    padding: 28px 0;
+}
+
+.token h2 {
+    font-size: 55px;
+    color: #615dea;
+    letter-spacing: 2px;
+    margin: 4px 0;
+}
+
+.token p {
+    color: #85899a;
+    font-size: 13px;
+}
+
+.queue-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.info-box {
+    background: #f7f7fc;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.info-box span {
+    display: block;
+    color: #8b8fa0;
+    font-size: 11px;
+}
+
+.info-box strong {
+    font-size: 18px;
+}
+
+.progress-section {
+    margin-top: 24px;
+}
+
+.progress-title {
+    display: flex;
+    justify-content: space-between;
+    color: #777c90;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.progress-title strong {
+    color: #615dea;
+}
+
+.progress {
+    height: 8px;
+    background: #e9e9f4;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress div {
+    width: 68%;
+    height: 100%;
+    background: linear-gradient(90deg,#615dea,#8a70ee);
+}
+
+.serving {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid #eeeeF5;
+    display: flex;
+    gap: 13px;
+    align-items: center;
+}
+
+.arrow {
+    width: 40px;
+    height: 40px;
+    background: #eeeeff;
+    color: #615dea;
+    border-radius: 11px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.serving small {
+    display: block;
+    color: #8c91a1;
+    font-size: 11px;
+}
+
+.serving strong {
+    font-size: 15px;
+}
+
+/* FEATURES */
+
+.features {
+    padding: 100px 0;
+    background: white;
+}
+
+.heading {
+    text-align: center;
+    max-width: 650px;
+    margin: auto;
+}
+
+.heading span {
+    color: #615dea;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.heading h2 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin-top: 12px;
+}
+
+.heading p {
+    color: #777c90;
+    margin-top: 15px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 22px;
+    margin-top: 55px;
+}
+
+.card {
+    padding: 30px;
+    border: 1px solid #e6e7f0;
+    border-radius: 17px;
+    background: white;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 35px rgba(60,58,120,.09);
+}
+
+.number {
+    color: #615dea;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #777c90;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* CTA */
+
+.cta {
+    background: linear-gradient(135deg,#615dea,#8268e9);
+    padding: 65px 0;
+}
+
+.cta-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cta small {
+    color: #ddd9ff;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.cta h2 {
+    color: white;
+    font-size: 34px;
+    margin: 5px 0;
+}
+
+.cta p {
+    color: #e5e3ff;
+}
+
+.cta a {
+    background: white;
+    color: #615dea;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* FOOTER */
+
+footer {
+    background: white;
+    padding: 28px 0;
+    border-top: 1px solid #e8e9f2;
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-container p,
+.footer-container span {
+    color: #858a9b;
+    font-size: 12px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px) {
+
+    .hero-container {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .buttons,
+    .stats {
+        justify-content: center;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+}
+
+@media(max-width:600px) {
+
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .navbar {
+        height: auto;
+        padding: 15px 0;
+    }
+
+    nav {
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .queue-card {
+        width: 100%;
+    }
+
+    .queue-info {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="container nav-container">
+
+        <a href="index.html" class="logo">
+            <div class="logo-box">SQ</div>
+            <span>Smart Queue</span>
+        </a>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="nav-button">Get Started</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<section class="hero">
+
+    <div class="container hero-container">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                <span></span>
+                SMART QUEUE MANAGEMENT
+            </div>
+
+            <h1>
+                Manage queues
+                <br>
+                <strong>the smarter way.</strong>
+            </h1>
+
+            <p class="hero-description">
+                Reduce waiting time, generate digital tokens,
+                and manage queues efficiently with one simple
+                and modern platform.
+            </p>
+
+            <div class="buttons">
+                <a href="register.html" class="primary">
+                    Get Started →
+                </a>
+
+                <a href="login.html" class="secondary">
+                    Sign In
+                </a>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <h3>24/7</h3>
+                    <p>Access</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="stat">
+                    <h3>Digital</h3>
+                    <p>Tokens</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="stat">
+                    <h3>Real-time</h3>
+                    <p>Tracking</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="queue-area">
+
+            <div class="queue-card">
+
+                <div class="queue-header">
+
+                    <div>
+                        <small>CURRENT QUEUE</small>
+                        <h2>General Service</h2>
+                    </div>
+
+                    <div class="status">
+                        ● Active
+                    </div>
+
+                </div>
+
+                <div class="token">
+
+                    <small>YOUR TOKEN</small>
+
+                    <h2>GEN001</h2>
+
+                    <p>Please wait for your turn</p>
+
+                </div>
+
+                <div class="queue-info">
+
+                    <div class="info-box">
+                        <span>People Ahead</span>
+                        <strong>04</strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Estimated Wait</span>
+                        <strong>12 min</strong>
+                    </div>
+
+                </div>
+
+                <div class="progress-section">
+
+                    <div class="progress-title">
+                        <span>Queue Progress</span>
+                        <strong>68%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div></div>
+                    </div>
+
+                </div>
+
+                <div class="serving">
+
+                    <div class="arrow">→</div>
+
+                    <div>
+                        <small>Currently serving</small>
+                        <strong>GEN009</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="features">
+
+    <div class="container">
+
+        <div class="heading">
+
+            <span>POWERFUL FEATURES</span>
+
+            <h2>
+                Everything you need
+                <br>
+                to manage queues
+            </h2>
+
+            <p>
+                A simple digital solution for faster and more
+                organized queue management.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="number">01</div>
+
+                <h3>Digital Tokens</h3>
+
+                <p>
+                    Users can generate queue tokens digitally
+                    without waiting in a physical line.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <div class="number">02</div>
+
+                <h3>Live Queue Tracking</h3>
+
+                <p>
+                    Track your token status and monitor queue
+                    progress directly from your dashboard.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <div class="number">03</div>
+
+                <h3>Admin Management</h3>
+
+                <p>
+                    Administrators can create queues and manage
+                    customers and token status easily.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="cta">
+
+    <div class="container cta-container">
+
+        <div>
+            <small>READY TO GET STARTED?</small>
+
+            <h2>Make waiting simpler.</h2>
+
+            <p>
+                Join Smart Queue and experience a better way
+                to manage queues.
+            </p>
+        </div>
+
+        <a href="register.html">
+            Create Account →
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="container footer-container">
+
+        <div class="logo">
+            <div class="logo-box">SQ</div>
+            <span>Smart Queue</span>
+        </div>
+
+        <p>Modern queue management made simple.</p>
+
+        <span>© 2026 Smart Queue Management System</span>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
